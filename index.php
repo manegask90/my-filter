@@ -32,7 +32,7 @@ require_once __DIR__.'/function.php';
 </head>
 <body>
 
-<form method="GET" action="index.php">
+<form method="post" action="index.php">
     <p>
         <label for="amount">Price range:</label>
         <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
@@ -58,8 +58,8 @@ require_once __DIR__.'/function.php';
     <ul>
         <?php
 
-        if ($_GET['categories']) {
-            $check_cat = implode(',', $_GET['categories']);
+        if ($_POST['categories']) {
+            $check_cat = "'".implode("','", $_POST['categories'])."'";
         }
 
         if (!empty($check_cat)) {
@@ -68,7 +68,7 @@ require_once __DIR__.'/function.php';
 
         }
 
-        $sql = "SELECT * FROM Products WHERE category IN (\"$check_cat\")";
+        $sql = "SELECT * FROM Products WHERE category IN ($check_cat)";
         $result = mysqli_query( $link, $sql );
         $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
